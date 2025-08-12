@@ -6,8 +6,55 @@
   html {
     @apply scroll-smooth;
   }
+  
+  /* Variáveis CSS para temas */
+  :root {
+    /* Tema Dark (padrão) */
+    --bg-primary: #070a10;
+    --bg-secondary: #0f1419;
+    --bg-surface: #1a1f26;
+    --bg-surface-light: #252a32;
+    --text-primary: #ffffff;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --border-light: #475569;
+    --accent-primary: #10b981;
+    --accent-secondary: #22c55e;
+    --accent-tertiary: #34d399;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow-glow: 0 0 25px rgba(16, 185, 129, 0.4);
+  }
+  
+  html.light {
+    /* Tema Light */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-surface: #f1f5f9;
+    --bg-surface-light: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --border-color: #cbd5e1;
+    --border-light: #e2e8f0;
+    --accent-primary: #059669;
+    --accent-secondary: #16a34a;
+    --accent-tertiary: #22c55e;
+    --glass-bg: rgba(0, 0, 0, 0.05);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --shadow-glow: 0 0 25px rgba(5, 150, 105, 0.3);
+  }
+  
   body {
-    @apply font-sans bg-[#070a10] text-white; /* Cor de fundo personalizada */
+    @apply font-sans text-white transition-colors duration-300;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+  
+  /* Transições suaves para mudança de tema */
+  * {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
 }
 
@@ -21,17 +68,74 @@
   }
   
   .input-like {
-    @apply w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-white placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300;
+    @apply w-full rounded-xl border px-4 py-3 placeholder-slate-400 focus:outline-none focus:ring-2 transition-all duration-300;
+    background-color: var(--bg-surface);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+  }
+  
+  .input-like:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
   }
   
   .glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+  }
+  
+  /* Classes utilitárias para temas */
+  .theme-bg-primary {
+    background-color: var(--bg-primary);
+  }
+  
+  .theme-bg-secondary {
+    background-color: var(--bg-secondary);
+  }
+  
+  .theme-bg-surface {
+    background-color: var(--bg-surface);
+  }
+  
+  .theme-bg-surface-light {
+    background-color: var(--bg-surface-light);
+  }
+  
+  .theme-text-primary {
+    color: var(--text-primary);
+  }
+  
+  .theme-text-secondary {
+    color: var(--text-secondary);
+  }
+  
+  .theme-text-muted {
+    color: var(--text-muted);
+  }
+  
+  .theme-border {
+    border-color: var(--border-color);
+  }
+  
+  .theme-border-light {
+    border-color: var(--border-light);
+  }
+  
+  .theme-accent {
+    color: var(--accent-primary);
+  }
+  
+  .theme-accent-bg {
+    background-color: var(--accent-primary);
   }
 }
 
 @layer utilities {
   .glass-effect {
-    @apply bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20;
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
   }
   
   .hover-scale {
@@ -48,7 +152,21 @@
   }
   
   .story-link {
-    @apply relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-emerald-400 after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100;
+    @apply relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100;
+  }
+  
+  .story-link::after {
+    background-color: var(--accent-primary);
+  }
+  
+  /* Sombras personalizadas para temas */
+  .shadow-glow-emerald {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  /* Transições específicas para elementos que mudam de tema */
+  .theme-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 

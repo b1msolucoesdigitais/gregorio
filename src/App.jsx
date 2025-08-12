@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Leaf, Sprout, Droplets, Shovel, MessageCircle } from 'lucide-react'
+import { Leaf, Sprout, Droplets, Shovel, MessageCircle, Sun, Moon } from 'lucide-react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import ThemePreview from './ThemePreview'
 
 const config = {
   whatsapp: '5531989484903',
@@ -10,23 +11,74 @@ const config = {
   formEndpoint: '', // ex.: https://formspree.io/f/SEU_ID
 }
 
+// Context para gerenciar o tema
+export const ThemeContext = createContext()
+
+export function useTheme() {
+  const context = useContext(ThemeContext)
+  if (!context) {
+    throw new Error('useTheme deve ser usado dentro de ThemeProvider')
+  }
+  return context
+}
+
+function ThemeProvider({ children }) {
+  const [isDark, setIsDark] = useState(true) // Dark como padrão
+
+  useEffect(() => {
+    // Verificar preferência salva no localStorage
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme) {
+      setIsDark(savedTheme === 'dark')
+    } else {
+      // Se não houver preferência salva, usar dark como padrão
+      setIsDark(true)
+    }
+  }, [])
+
+  useEffect(() => {
+    // Aplicar tema ao documento
+    if (isDark) {
+      document.documentElement.classList.add('dark')
+      document.documentElement.classList.remove('light')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.documentElement.classList.add('light')
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
+    }
+  }, [isDark])
+
+  const toggleTheme = () => {
+    setIsDark(!isDark)
+  }
+
+  return (
+    <ThemeContext.Provider value={{ isDark, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  )
+}
+
 function Header() {
+  const { isDark, toggleTheme } = useTheme()
+
   return (
     <header className="sticky top-0 z-50">
       <div className="glass">
         <div className="container mx-auto flex items-center justify-between h-16 px-4">
           <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="flex items-center gap-2 font-semibold">
             <span className="text-xl">🌿</span>
-            <span className="tracking-tight">Gregório Paisagista</span>
+            <span className="tracking-tight theme-text-primary">Gregório Paisagista</span>
           </motion.div>
-                     <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-200">
-             <a href="#servicos" className="hover:text-white">Serviços</a>
-             <a href="#projetos" className="hover:text-white">Projetos</a>
-             <a href="#sobre" className="hover:text-white">Sobre</a>
-             <a href="#depoimentos" className="hover:text-white">Depoimentos</a>
-             <a href="#contato" className="hover:text-white">Contato</a>
+                     <nav className="hidden md:flex items-center gap-6 text-sm font-medium theme-text-secondary">
+             <a href="#servicos" className="hover:text-theme-primary transition-colors duration-200">Serviços</a>
+             <a href="#projetos" className="hover:text-theme-primary transition-colors duration-200">Projetos</a>
+             <a href="#sobre" className="hover:text-theme-primary transition-colors duration-200">Sobre</a>
+             <a href="#depoimentos" className="hover:text-theme-primary transition-colors duration-200">Depoimentos</a>
+             <a href="#contato" className="hover:text-theme-primary transition-colors duration-200">Contato</a>
            </nav>
-                     <motion.a
+                               <motion.a
              initial={{ opacity: 0, y: -6 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.6, delay: 0.1 }}
@@ -37,6 +89,22 @@ function Header() {
            >
              <MessageCircle className="h-4 w-4" /> Entrar em contato
            </motion.a>
+           
+           {/* Toggle de Tema */}
+           <motion.button 
+             onClick={toggleTheme} 
+             initial={{ opacity: 0, y: -6 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ duration: 0.6, delay: 0.2 }}
+             className="ml-4 p-2 rounded-xl backdrop-blur-sm border transition-all duration-300 hover:scale-110 theme-bg-surface theme-border hover:theme-bg-surface-light"
+             aria-label={isDark ? "Mudar para tema claro" : "Mudar para tema escuro"}
+           >
+             {isDark ? (
+               <Sun className="w-5 h-5 text-yellow-400" />
+             ) : (
+               <Moon className="w-5 h-5 text-blue-400" />
+             )}
+           </motion.button>
         </div>
       </div>
     </header>
@@ -75,7 +143,7 @@ function Hero() {
           alt="Gregório Paisagista"
           className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#070a10]/95" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-theme-primary/95" />
       </div>
 
       {/* Ícones sutis decorativos */}
@@ -93,17 +161,17 @@ function Hero() {
       <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Conteúdo principal */}
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.5 }} className="text-white">
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.5 }} className="theme-text-primary">
             <h1 className="font-semibold tracking-tight leading-tight text-4xl md:text-6xl mb-6">
-              O <span className="text-emerald-500">Arquiteto Paisagista</span> que <span className="text-white">Revolucionou</span> o<br /> Vale do Aço
+              O <span className="text-emerald-500">Arquiteto Paisagista</span> que <span className="theme-text-primary">Revolucionou</span> o<br /> Vale do Aço
             </h1>
-            <p className="mt-6 text-white/90 text-lg md:text-xl leading-relaxed">
+            <p className="mt-6 theme-text-primary/90 text-lg md:text-xl leading-relaxed">
               <strong>Gregório</strong> não é apenas mais um paisagista. É o <span className="text-emerald-400 font-semibold">único franqueado Vertigarden</span> da região, 
               responsável por transformar espaços comuns em <span className="text-emerald-400 font-semibold">obras de arte vivas</span>. 
               Sua expertise em solo, nutrição e sistemas sustentáveis fez dele a <span className="text-emerald-400 font-semibold">referência absoluta</span> 
               em paisagismo de alto padrão.
             </p>
-            <p className="mt-4 text-white/80 text-base md:text-lg">
+            <p className="mt-4 theme-text-primary/80 text-base md:text-lg">
               De residências de luxo a projetos corporativos, cada jardim assinado por Gregório conta uma história de <span className="text-emerald-400 font-medium">excelência técnica</span> 
               e <span className="text-emerald-400 font-medium">visão artística</span> que poucos conseguem replicar.
             </p>
@@ -114,19 +182,19 @@ function Hero() {
 
           {/* Card sobreposto estilo HappyHome */}
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.7 }} className="relative">
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 shadow-2xl">
+            <div className="theme-bg-surface/10 backdrop-blur-md border theme-border-light rounded-3xl p-8 shadow-2xl">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
                 <span className="text-emerald-400 font-medium text-sm">Exclusividade</span>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-3">Jardins Verticais Vertigarden</h3>
-              <p className="text-white/80 text-sm leading-relaxed mb-6">
+              <h3 className="text-2xl font-bold theme-text-primary mb-3">Jardins Verticais Vertigarden</h3>
+              <p className="theme-text-primary/80 text-sm leading-relaxed mb-6">
                 Sistema patenteado exclusivo no Vale do Aço. Transforme qualquer parede em uma obra de arte viva com tecnologia sustentável e acabamento premium.
               </p>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                  <span className="text-white/60 text-xs">Sistema Patenteado</span>
+                  <span className="theme-text-primary/60 text-xs">Sistema Patenteado</span>
                 </div>
                </div>
             </div>
@@ -138,9 +206,9 @@ function Hero() {
                 {k:'projetos',v:'100+',desc:'que mudaram vidas'},
                 {k:'exclusividade',v:'Vertigarden',desc:'único da região'}
               ].map((m,i)=> (
-                <motion.div key={i} initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} transition={{delay:1 + i*0.1}} className="bg-surface-800/90 backdrop-blur-sm border border-slate-700 rounded-2xl p-4 text-center shadow-lg">
+                <motion.div key={i} initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} transition={{delay:1 + i*0.1}} className="theme-bg-surface/90 backdrop-blur-sm border theme-border rounded-2xl p-4 text-center shadow-lg">
                   <div className="text-xl font-bold text-emerald-500">{m.v}</div>
-                  <div className="text-xs text-slate-300 capitalize">{m.k}</div>
+                  <div className="text-xs theme-text-secondary capitalize">{m.k}</div>
                   <div className="text-xs text-emerald-400 mt-1">{m.desc}</div>
                 </motion.div>
               ))}
@@ -163,18 +231,18 @@ function AuthoritySection() {
   ]
   
   return (
-    <section className="py-16 bg-gradient-to-r from-surface-800 to-base-900">
+    <section className="py-16 theme-bg-secondary">
       <div className="container mx-auto px-4">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Números que Comprovam</h2>
-          <p className="text-slate-300 max-w-2xl mx-auto">Resultados que demonstram nossa autoridade e compromisso com a excelência em paisagismo.</p>
+          <h2 className="text-3xl md:text-4xl font-bold theme-text-primary mb-4">Números que Comprovam</h2>
+          <p className="theme-text-secondary max-w-2xl mx-auto">Resultados que demonstram nossa autoridade e compromisso com a excelência em paisagismo.</p>
         </motion.div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {stats.map((stat, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-emerald-500 mb-2">{stat.number}</div>
-              <div className="text-lg font-semibold text-white mb-1">{stat.label}</div>
-              <div className="text-sm text-slate-400">{stat.desc}</div>
+              <div className="text-lg font-semibold theme-text-primary mb-1">{stat.label}</div>
+              <div className="text-sm theme-text-muted">{stat.desc}</div>
             </motion.div>
           ))}
         </div>
@@ -220,7 +288,7 @@ function ServicesSection() {
   ]
 
   return (
-    <section id="servicos" className="py-20 bg-surface-800">
+    <section id="servicos" className="py-20 theme-bg-surface">
       <div className="container mx-auto px-4">
         <motion.div 
           initial={{ opacity: 0, y: 20 }} 
@@ -229,10 +297,10 @@ function ServicesSection() {
           transition={{ duration: 0.6 }} 
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold theme-text-primary mb-6">
             Serviços <span className="text-emerald-500">Exclusivos</span> que Transformam
           </h2>
-          <p className="text-slate-300 max-w-3xl mx-auto text-lg leading-relaxed">
+          <p className="theme-text-secondary max-w-3xl mx-auto text-lg leading-relaxed">
             Oferecemos diferentes tipos de serviços com a qualidade e exclusividade que só Gregório pode entregar. 
             Cada projeto é uma obra única que eleva o padrão do seu espaço.
           </p>
@@ -246,7 +314,7 @@ function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.2 }}
-              className="group relative overflow-hidden rounded-3xl bg-surface-700 border border-slate-600 shadow-2xl hover:shadow-glow-emerald/20 transition-all duration-500 hover:scale-[1.02]"
+              className="group relative overflow-hidden rounded-3xl theme-bg-surface-light border theme-border shadow-2xl hover:shadow-glow-emerald/20 transition-all duration-500 hover:scale-[1.02]"
             >
                              <div className="relative h-64 overflow-hidden rounded-t-3xl">
                  <img 
@@ -280,14 +348,14 @@ function ServicesSection() {
                </div>
               
               <div className="p-8">
-                <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
-                <p className="text-slate-300 leading-relaxed mb-6">{service.description}</p>
+                <h3 className="text-2xl font-bold theme-text-primary mb-4">{service.title}</h3>
+                <p className="theme-text-secondary leading-relaxed mb-6">{service.description}</p>
                 
                 <div className="space-y-3 mb-6">
                   {service.features.map((feature, j) => (
                     <div key={j} className="flex items-center gap-3">
                       <div className="w-2 h-2 bg-emerald-500 rounded-full flex-shrink-0"></div>
-                      <span className="text-slate-200 text-sm">{feature}</span>
+                      <span className="theme-text-secondary text-sm">{feature}</span>
                     </div>
                   ))}
                 </div>
@@ -390,7 +458,7 @@ function SkillsSection() {
   ]
   
   return (
-    <section className="py-20 bg-gradient-to-l from-surface-800 to-base-900">
+    <section className="py-20 theme-bg-secondary">
       <div className="container mx-auto px-4">
         <motion.div 
           initial={{ opacity: 0, y: 20 }} 
@@ -399,10 +467,10 @@ function SkillsSection() {
           transition={{ duration: 0.6 }} 
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold theme-text-primary mb-6">
             Nossas <span className="text-emerald-500">Especialidades</span> em Números
           </h2>
-          <p className="text-slate-300 max-w-3xl mx-auto text-lg leading-relaxed">
+          <p className="theme-text-secondary max-w-3xl mx-auto text-lg leading-relaxed">
             Domínio técnico comprovado em cada área de atuação, com resultados que falam por si.
           </p>
         </motion.div>
@@ -415,24 +483,24 @@ function SkillsSection() {
               whileInView={{ opacity: 1, x: 0 }} 
               viewport={{ once: true }} 
               transition={{ duration: 0.6, delay: i * 0.1 }} 
-              className="group relative bg-surface-700/50 backdrop-blur-sm border border-slate-600 rounded-3xl p-8 hover:bg-surface-700/70 transition-all duration-500 hover:scale-[1.02] hover:shadow-xl"
+              className="group relative theme-bg-surface/50 backdrop-blur-sm border theme-border rounded-3xl p-8 hover:theme-bg-surface/70 transition-all duration-500 hover:scale-[1.02] hover:shadow-xl"
             >
               <div className="flex items-start gap-4 mb-6">
                 <div className="w-16 h-16 bg-emerald-500/20 rounded-2xl flex items-center justify-center group-hover:bg-emerald-500/30 transition-colors duration-300">
                   <skill.icon className="w-8 h-8 text-emerald-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-white mb-2">{skill.name}</h3>
-                  <p className="text-slate-300 text-sm leading-relaxed">{skill.description}</p>
+                  <h3 className="text-xl font-bold theme-text-primary mb-2">{skill.name}</h3>
+                  <p className="theme-text-secondary text-sm leading-relaxed">{skill.description}</p>
                 </div>
               </div>
               
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-white font-medium">Proficiência</span>
+                  <span className="theme-text-primary font-medium">Proficiência</span>
                   <span className="text-emerald-500 font-bold text-lg">{skill.percentage}%</span>
                 </div>
-                <div className="w-full bg-slate-700 rounded-full h-3 overflow-hidden">
+                <div className="w-full theme-bg-surface-light rounded-full h-3 overflow-hidden">
                   <motion.div 
                     initial={{ width: 0 }} 
                     whileInView={{ width: `${skill.percentage}%` }} 
@@ -488,18 +556,18 @@ function AwardsSection() {
   ]
   
   return (
-    <section className="py-16 bg-surface-700">
+    <section className="py-16 theme-bg-surface">
       <div className="container mx-auto px-4">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Prêmios & Reconhecimentos</h2>
-          <p className="text-slate-300 max-w-2xl mx-auto">Excelência reconhecida pela indústria e clientes.</p>
+          <h2 className="text-3xl md:text-4xl font-bold theme-text-primary mb-4">Prêmios & Reconhecimentos</h2>
+          <p className="theme-text-secondary max-w-2xl mx-auto">Excelência reconhecida pela indústria e clientes.</p>
         </motion.div>
         <div className="grid md:grid-cols-3 gap-6">
           {awards.map((award, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} className="bg-surface-800 rounded-2xl p-6 border border-slate-700">
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} className="theme-bg-secondary rounded-2xl p-6 border theme-border">
               <div className="text-emerald-500 text-sm font-medium mb-2">{award.year}</div>
-              <h3 className="text-xl font-semibold text-white mb-2">{award.title}</h3>
-              <p className="text-slate-300">{award.desc}</p>
+              <h3 className="text-xl font-semibold theme-text-primary mb-2">{award.title}</h3>
+              <p className="theme-text-secondary">{award.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -510,7 +578,7 @@ function AwardsSection() {
 
 function About() {
   return (
-    <section id="sobre" className="py-20 bg-gradient-to-b from-base-900 to-surface-800">
+    <section id="sobre" className="py-20 theme-bg-primary">
       <div className="container mx-auto px-4">
         <div className="grid gap-12 lg:grid-cols-2 items-center">
           <div className="relative">
@@ -548,17 +616,17 @@ function About() {
               <span className="glass inline-flex items-center rounded-full px-4 py-2 text-sm text-emerald-400 font-medium">Exclusividade</span>
             </div>
             
-            <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
+            <h2 className="text-4xl md:text-5xl font-bold theme-text-primary leading-tight">
               Por que Gregório é <span className="text-emerald-500">único</span>?
             </h2>
             
             <div className="space-y-4">
-              <p className="text-slate-300 leading-relaxed text-lg">
+              <p className="theme-text-secondary leading-relaxed text-lg">
                 <strong>Arquiteto paisagista</strong> com formação sólida, mas o que realmente o diferencia é sua <span className="text-emerald-400 font-medium">exclusividade no mercado</span>. 
                 Como <strong>único franqueado Vertigarden do Vale do Aço</strong>, Gregório oferece o que ninguém mais na região consegue: 
                 sistemas patenteados de jardins verticais com garantia de qualidade internacional.
               </p>
-              <p className="text-slate-300 leading-relaxed text-lg">
+              <p className="theme-text-secondary leading-relaxed text-lg">
                 Sua <span className="text-emerald-400 font-medium">expertise em solo e nutrição</span> não vem apenas de livros - é fruto de anos de experimentação 
                 e projetos reais que transformaram espaços problemáticos em jardins exuberantes. 
                 <strong>Gregório não segue tendências, ele as cria</strong>.
@@ -582,7 +650,7 @@ function About() {
                   className="flex items-center gap-3"
                 >
                   <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                  <span className="text-slate-200">{item}</span>
+                  <span className="theme-text-secondary">{item}</span>
                 </motion.div>
               ))}
             </div>
@@ -810,7 +878,7 @@ function Gallery() {
   }
   
   return (
-         <section id="projetos" className="py-20 bg-gradient-to-b from-surface-800 to-base-900">
+         <section id="projetos" className="py-20 theme-bg-secondary">
       <div className="container mx-auto px-4">
         <motion.div 
           initial={{ opacity: 0, y: 20 }} 
@@ -819,10 +887,10 @@ function Gallery() {
           transition={{ duration: 0.6 }} 
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold theme-text-primary mb-6">
             Projetos <span className="text-emerald-500">Recentes</span> que Inspiram
           </h2>
-          <p className="text-slate-300 max-w-3xl mx-auto text-lg leading-relaxed">
+          <p className="theme-text-secondary max-w-3xl mx-auto text-lg leading-relaxed">
             Descubra nossa galeria de projetos que transformaram espaços comuns em obras de arte vivas. 
             Cada imagem conta uma história de excelência e inovação.
           </p>
@@ -836,7 +904,7 @@ function Gallery() {
                whileInView={{ opacity: 1, y: 0 }}
                viewport={{ once: true }}
                transition={{ duration: 0.5, delay: i * 0.1 }}
-               className="group relative overflow-hidden rounded-3xl bg-surface-700 border border-slate-600 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] cursor-pointer"
+               className="group relative overflow-hidden rounded-3xl theme-bg-surface-light border theme-border shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] cursor-pointer"
                onClick={() => openLightbox(project)}
              >
                <div className="relative aspect-[4/3] overflow-hidden">
@@ -1013,20 +1081,20 @@ function Testimonials() {
     <section id="depoimentos" className="py-14">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Depoimentos dos Clientes</h2>
+          <h2 className="text-3xl md:text-4xl font-bold theme-text-primary mb-4">Depoimentos dos Clientes</h2>
           <div className="flex items-center justify-center gap-2 mb-2">
             <span className="text-4xl font-bold text-emerald-500">5.0</span>
             <div className="flex gap-1">
               {[...Array(5)].map((_, i) => <span key={i} className="text-accent-gold">★</span>)}
             </div>
           </div>
-          <p className="text-slate-300">100+ Clientes Avaliaram</p>
+          <p className="theme-text-secondary">100+ Clientes Avaliaram</p>
         </div>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           {items.map((t, i) => (
             <motion.blockquote
               key={i}
-              className="rounded-2xl border border-slate-800 bg-surface-700 p-6 shadow-sm text-slate-100"
+              className="rounded-2xl border theme-border theme-bg-surface p-6 shadow-sm theme-text-secondary"
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -1034,9 +1102,9 @@ function Testimonials() {
             >
               <div className="flex gap-1 mb-3">
                 {[...Array(t.rating)].map((_, i) => <span key={i} className="text-accent-gold">★</span>)}
-              </div>
-              <p className="text-lg">"{t.q}"</p>
-              <footer className="text-slate-300 mt-2">— {t.a}</footer>
+            </div>
+              <p className="text-lg theme-text-primary">"{t.q}"</p>
+              <footer className="theme-text-muted mt-2">— {t.a}</footer>
             </motion.blockquote>
           ))}
         </div>
@@ -1072,7 +1140,7 @@ function Contact() {
   }
 
   return (
-    <section id="contato" className="py-20 bg-gradient-to-b from-base-900 to-surface-800 relative overflow-hidden">
+    <section id="contato" className="py-20 theme-bg-primary relative overflow-hidden">
       {/* Elementos decorativos de fundo */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-10 w-32 h-32 bg-emerald-500 rounded-full blur-3xl"></div>
@@ -1093,10 +1161,10 @@ function Contact() {
             <MessageCircle className="w-4 h-4" />
             Vamos Conversar
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold theme-text-primary mb-6">
             Transforme seu <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-jade-400">Espaço</span> com o Gregório
           </h2>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl theme-text-secondary max-w-3xl mx-auto leading-relaxed">
             Conecte-se diretamente com a autoridade em paisagismo. Cada projeto é único e merece atenção personalizada.
           </p>
         </motion.div>
@@ -1326,8 +1394,8 @@ function Contact() {
 
 function Footer() {
   return (
-    <footer className="border-t border-slate-800 bg-surface-800/80">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between text-slate-300">
+    <footer className="border-t theme-border theme-bg-secondary/80">
+      <div className="container mx-auto px-4 py-4 flex items-center justify-between theme-text-secondary">
         <p>© {new Date().getFullYear()} Gregório Paisagista. Todos os direitos reservados.</p>
         <a href="#contato" className="text-emerald-500 hover:underline">Contato</a>
       </div>
@@ -1352,41 +1420,44 @@ function WhatsFab() {
 function App() {
   return (
     <HelmetProvider>
-      <div className="min-h-full flex flex-col">
-        <Helmet>
-          <title>Gregório Paisagista — Jardins Verticais, Projetos Paisagísticos, Irrigação e Implantação</title>
-          <meta name="description" content="Autoridade nacional em Jardins Verticais (Vertigarden), Projetos Paisagísticos, Irrigação e Implantação. Excelência técnica e estética." />
-          <link rel="canonical" href="https://gregoriopaisagista.com.br/" />
-          <meta property="og:type" content="website" />
-          <meta property="og:title" content="Gregório Paisagista — Autoridade em Paisagismo" />
-          <meta property="og:description" content="Jardins Verticais (Vertigarden), Projetos Paisagísticos, Irrigação e Implantação. Atendimento nacional." />
-          <meta property="og:image" content="https://images.unsplash.com/photo-1523419409543-a5e549c1d29f?w=1200&q=80&auto=format&fit=crop" />
-        </Helmet>
-        <script type="application/ld+json">{JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Person",
-          "name": "Gregório",
-          "jobTitle": "Arquiteto Paisagista",
-          "url": "https://gregoriopaisagista.com.br/",
-          "worksFor": { "@type": "Organization", "name": "Gregório Paisagista" }
-        })}</script>
+      <ThemeProvider>
+        <div className="min-h-full flex flex-col">
+          <Helmet>
+            <title>Gregório Paisagista — Jardins Verticais, Projetos Paisagísticos, Irrigação e Implantação</title>
+            <meta name="description" content="Autoridade nacional em Jardins Verticais (Vertigarden), Projetos Paisagísticos, Irrigação e Implantação. Excelência técnica e estética." />
+            <link rel="canonical" href="https://gregoriopaisagista.com.br/" />
+            <meta property="og:type" content="website" />
+            <meta property="og:title" content="Gregório Paisagista — Autoridade em Paisagismo" />
+            <meta property="og:description" content="Jardins Verticais (Vertigarden), Projetos Paisagísticos, Irrigação e Implantação. Atendimento nacional." />
+            <meta property="og:image" content="https://images.unsplash.com/photo-1523419409543-a5e549c1d29f?w=1200&q=80&auto=format&fit=crop" />
+          </Helmet>
+          <script type="application/ld+json">{JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Gregório",
+            "jobTitle": "Arquiteto Paisagista",
+            "url": "https://gregoriopaisagista.com.br/",
+            "worksFor": { "@type": "Organization", "name": "Gregório Paisagista" }
+          })}</script>
 
-        <Header />
-        <main className="flex-1">
-          <Hero />
-          <AuthoritySection />
-          <About />
-          <ServicesSection />
-          <Gallery />
-          <SkillsSection />
-          <AwardsSection />
-          <Testimonials />
-          <Contact />
-        </main>
-        <Footer />
+          <Header />
+          <main className="flex-1">
+            <Hero />
+            <AuthoritySection />
+            <About />
+            <ServicesSection />
+            <Gallery />
+            <SkillsSection />
+            <AwardsSection />
+            <Testimonials />
+            <Contact />
+          </main>
+                  <Footer />
         <WhatsFab />
+        <ThemePreview />
       </div>
-    </HelmetProvider>
+    </ThemeProvider>
+  </HelmetProvider>
   )
 }
 

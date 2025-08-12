@@ -43,13 +43,13 @@ export default {
           600: '#34d399',
           700: '#10b981',
         },
-        // Cores Base Escuras
+        // Cores Base Escuras (Tema Dark)
         base: {
           900: '#070a10', // Fundo principal
           800: '#0f1419',
           700: '#1a1f26',
         },
-        // Superfícies
+        // Superfícies (Tema Dark)
         surface: {
           800: '#0f1419',
           700: '#1a1f26',
@@ -67,6 +67,18 @@ export default {
           gold: '#fbbf24',
           bronze: '#cd7f32',
           copper: '#b87333',
+        },
+        // Cores do Tema Light
+        light: {
+          primary: '#ffffff',
+          secondary: '#f8fafc',
+          surface: '#f1f5f9',
+          'surface-light': '#e2e8f0',
+          text: '#0f172a',
+          'text-secondary': '#334155',
+          'text-muted': '#64748b',
+          border: '#cbd5e1',
+          'border-light': '#e2e8f0',
         }
       },
       container: {
@@ -78,9 +90,27 @@ export default {
         'glow': '0 0 20px rgba(34, 197, 94, 0.3)',
         'glow-emerald': '0 0 25px rgba(16, 185, 129, 0.4)',
         'glow-jade': '0 0 25px rgba(34, 197, 94, 0.4)',
+        'glow-emerald-light': '0 0 25px rgba(5, 150, 105, 0.3)',
       },
       backdropBlur: {
         'xs': '2px',
+      },
+      // Configurações para temas
+      backgroundColor: {
+        'theme-primary': 'var(--bg-primary)',
+        'theme-secondary': 'var(--bg-secondary)',
+        'theme-surface': 'var(--bg-surface)',
+        'theme-surface-light': 'var(--bg-surface-light)',
+      },
+      textColor: {
+        'theme-primary': 'var(--text-primary)',
+        'theme-secondary': 'var(--text-secondary)',
+        'theme-muted': 'var(--text-muted)',
+        'theme-accent': 'var(--accent-primary)',
+      },
+      borderColor: {
+        'theme': 'var(--border-color)',
+        'theme-light': 'var(--border-light)',
       },
     },
   },
