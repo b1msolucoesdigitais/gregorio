@@ -2,3 +2,4 @@ node_modules
 dist
 .vercel
 .npmrc
+vercel-build.sh
