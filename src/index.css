@@ -1,0 +1,6 @@
+@import './styles.css';
+
+/* Extra utilities (optional) */
+.container { @apply max-w-[1120px]; }
+
+
