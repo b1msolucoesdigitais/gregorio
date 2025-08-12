@@ -71,7 +71,7 @@ function Hero() {
           initial={{ scale: 1.08, opacity: 0.9 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.2, ease: 'easeOut' }}
-          src="images/bghero.png"
+          src="/images/bghero.png"
           alt="Gregório Paisagista"
           className="h-full w-full object-cover"
         />
@@ -192,8 +192,8 @@ function ServicesSection() {
       title: "Jardins Verticais Vertigarden",
       subtitle: "Sistema Exclusivo",
       description: "Transforme qualquer parede em uma obra de arte viva com o sistema patenteado Vertigarden, exclusivo no Vale do Aço.",
-      image: "images/vertigarden.png",
-      video: "images/videojardimertigarden.mp4",
+      image: "/images/vertigarden.png",
+      video: "/images/videojardimertigarden.mp4",
       features: [
         "Sistema patenteado com alta durabilidade",
         "Drenagem e irrigação integradas", 
@@ -207,7 +207,7 @@ function ServicesSection() {
       title: "Projetos Paisagísticos",
       subtitle: "Conceito Autoral",
       description: "Projetos únicos que harmonizam arquitetura, clima e solo, criando espaços que contam histórias e elevam o valor do patrimônio.",
-      image: "images/paisagismo2.jpg",
+      image: "/images/paisagismo2.jpg",
       features: [
         "Conceito, anteprojeto e executivo",
         "Estudos de insolação, clima e espécies",
@@ -349,7 +349,7 @@ function ServicesSection() {
                  playsInline
                  controlsList="nodownload"
                >
-                <source src="images/jardimertigarden.mp4" type="video/mp4" />
+                <source src="/images/videojardimertigarden.mp4" type="video/mp4" />
                 Seu navegador não suporta vídeos.
               </video>
             </motion.div>
@@ -515,7 +515,7 @@ function About() {
         <div className="grid gap-12 lg:grid-cols-2 items-center">
           <div className="relative">
             <img
-              src="images/gregorio.png"
+              src="/images/gregorio.png"
               alt="Gregório Paisagista"
               className="w-full h-auto rounded-3xl shadow-2xl"
             />
@@ -724,9 +724,9 @@ function Gallery() {
       category: 'Jardins Verticais',
       location: 'Belo Horizonte, MG',
       images: [
-        'images/vertigarden.png',
-        'images/vertigarden2.png',
-        'images/paisagismo.jpg'
+        '/images/vertigarden.png',
+        '/images/vertigarden2.png',
+        '/images/paisagismo.jpg'
       ]
     },
     {
@@ -734,9 +734,9 @@ function Gallery() {
       category: 'Paisagismo',
       location: 'Vale do Aço, MG',
       images: [
-        'images/paisagismo2.jpg',
-        'images/paisagismo.jpg',
-        'images/vertigarden.png'
+        '/images/paisagismo2.jpg',
+        '/images/paisagismo.jpg',
+        '/images/vertigarden.png'
       ]
     },
     {
@@ -744,9 +744,9 @@ function Gallery() {
       category: 'Interiores',
       location: 'São Paulo, SP',
       images: [
-        'images/paisagismo.jpg',
-        'images/vertigarden2.png',
-        'images/paisagismo2.jpg'
+        '/images/paisagismo.jpg',
+        '/images/vertigarden2.png',
+        '/images/paisagismo2.jpg'
       ]
     },
     {
@@ -754,9 +754,9 @@ function Gallery() {
       category: 'Sustentabilidade',
       location: 'Rio de Janeiro, RJ',
       images: [
-        'images/vertigarden.png',
-        'images/paisagismo.jpg',
-        'images/vertigarden2.png'
+        '/images/vertigarden.png',
+        '/images/paisagismo.jpg',
+        '/images/vertigarden2.png'
       ]
     },
     {
@@ -764,9 +764,9 @@ function Gallery() {
       category: 'Tecnologia',
         location: 'Minas Gerais',
         images: [
-          'images/paisagismo2.jpg',
-          'images/vertigarden.png',
-          'images/paisagismo.jpg'
+                  '/images/paisagismo2.jpg',
+        '/images/vertigarden.png',
+        '/images/paisagismo.jpg'
         ]
       },
       {
@@ -774,9 +774,9 @@ function Gallery() {
         category: 'Design',
         location: 'Brasil',
         images: [
-          'images/vertigarden2.png',
-          'images/paisagismo2.jpg',
-          'images/vertigarden.png'
+                  '/images/vertigarden2.png',
+        '/images/paisagismo2.jpg',
+        '/images/vertigarden.png'
         ]
       }
     ]
