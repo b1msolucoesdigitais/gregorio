@@ -72,10 +72,9 @@ function Header() {
             <span className="tracking-tight theme-text-primary">Gregório Paisagista</span>
           </motion.div>
                      <nav className="hidden md:flex items-center gap-6 text-sm font-medium theme-text-secondary">
-             <a href="#servicos" className="hover:text-theme-primary transition-colors duration-200">Serviços</a>
-             <a href="#projetos" className="hover:text-theme-primary transition-colors duration-200">Projetos</a>
-             <a href="#sobre" className="hover:text-theme-primary transition-colors duration-200">Sobre</a>
-             <a href="#depoimentos" className="hover:text-theme-primary transition-colors duration-200">Depoimentos</a>
+                     <a href="#sobre" className="hover:text-theme-primary transition-colors duration-200">Sobre</a>
+                     <a href="#servicos" className="hover:text-theme-primary transition-colors duration-200">Serviços</a>
+             <a href="#projetos" className="hover:text-theme-primary transition-colors duration-200">Projetos</a>     
              <a href="#contato" className="hover:text-theme-primary transition-colors duration-200">Contato</a>
            </nav>
                                <motion.a
@@ -202,14 +201,15 @@ function Hero() {
             {/* Métricas em cards menores */}
             <div className="mt-8 grid grid-cols-3 gap-3">
               {[
-                {k:'anos',v:'10+',desc:'de domínio técnico'},
-                {k:'projetos',v:'100+',desc:'que mudaram vidas'},
-                {k:'exclusividade',v:'Vertigarden',desc:'único da região'}
+                {k:'Projeto paisagístico', icon: Leaf},
+                {k:'Projeto de irrigação', icon: Droplets},
+                {k:'Implantação de jardim e irrigação', icon: Shovel}
               ].map((m,i)=> (
-                <motion.div key={i} initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} transition={{delay:1 + i*0.1}} className="theme-bg-surface/90 backdrop-blur-sm border theme-border rounded-2xl p-4 text-center shadow-lg">
-                  <div className="text-xl font-bold text-emerald-500">{m.v}</div>
+                <motion.div key={i} initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} transition={{delay:1 + i*0.1}} className="theme-bg-surface/90 backdrop-blur-sm border theme-border rounded-2xl p-4 text-center shadow-lg flex flex-col items-center gap-2">
+                  <div className="w-8 h-8 flex items-center justify-center rounded-xl bg-emerald-500/20 mb-1">
+                    <m.icon className="w-5 h-5 text-emerald-500" />
+                  </div>
                   <div className="text-xs theme-text-secondary capitalize">{m.k}</div>
-                  <div className="text-xs text-emerald-400 mt-1">{m.desc}</div>
                 </motion.div>
               ))}
             </div>
@@ -224,7 +224,7 @@ function Hero() {
 // Seção de autoridade com números
 function AuthoritySection() {
   const stats = [
-    { number: '10+', label: 'Anos de Experiência', desc: 'Atuando no mercado' },
+    // { number: '10+', label: 'Anos de Experiência', desc: 'Atuando no mercado' },
     { number: '100+', label: 'Projetos Entregues', desc: 'Com excelência' },
     { number: '500+', label: 'Clientes Satisfeitos', desc: 'Em todo Brasil' },
     { number: '24h', label: 'Tempo de Resposta', desc: 'WhatsApp' }
@@ -237,7 +237,7 @@ function AuthoritySection() {
           <h2 className="text-3xl md:text-4xl font-bold theme-text-primary mb-4">Números que Comprovam</h2>
           <p className="theme-text-secondary max-w-2xl mx-auto">Resultados que demonstram nossa autoridade e compromisso com a excelência em paisagismo.</p>
         </motion.div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 justify-center max-w-4xl mx-auto">
           {stats.map((stat, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-emerald-500 mb-2">{stat.number}</div>
@@ -284,6 +284,32 @@ function ServicesSection() {
       ],
       cta: "Quero um projeto sob medida",
       ctaMsg: "Tenho um projeto para discutir."
+    },
+    {
+      title: "Sistema de irrigação",
+      subtitle: "Tecnologia e Sustentabilidade",
+      description: "Automação inteligente, cobertura homogênea e precisão. Plantas saudáveis o ano todo com manutenção simples.",
+      image: "/images/irrigacaocampo.jpeg",
+      features: [
+        "Automação com programação por zonas",
+        "Consumo otimizado e monitoramento",
+        "Manutenção facilitada"
+      ],
+      cta: "Quero irrigação automatizada",
+      ctaMsg: "Gostaria de irrigação automatizada."
+    },
+    {
+      title: "Implantação de jardim",
+      subtitle: "Execução Profissional",
+      description: "Execução de alto padrão com curadoria de espécies, drenagem, preparo de solo e acabamentos impecáveis.",
+      image: "/images/implantacaojardim.jpg",
+      features: [
+        "Curadoria de espécies e substratos",
+        "Drenagem, preparo de solo e acabamentos",
+        "Execução rápida e impecável"
+      ],
+      cta: "Quero implantar meu jardim",
+      ctaMsg: "Quero implantar meu jardim."
     }
   ]
 
@@ -550,9 +576,21 @@ function SkillsSection() {
 // Prêmios e reconhecimentos
 function AwardsSection() {
   const awards = [
-    { title: 'Melhor Projeto Paisagístico', year: '2024', desc: 'Prêmio de Excelência em Arquitetura' },
-    { title: 'Parceiro Vertigarden', year: '2023', desc: 'Certificação de Qualidade' },
-    { title: 'Inovação em Sustentabilidade', year: '2022', desc: 'Reconhecimento Nacional' }
+    {
+      title: '3º lugar Rotary Club - Juiz de Fora/MG',
+      image: '/images/premios/premiorotary.jpg',
+      desc: 'Reconhecimento em projeto humanitário pelo Rotary Club.'
+    },
+    {
+      title: 'Franquia Vertigardem',
+      image: '/images/premios/premiovertigardem.jpg',
+      desc: 'Único franqueado Vertigarden da região.'
+    },
+    {
+      title: 'Prêmio Destaque MaisVip',
+      image: '/images/premios/premiomaisvip.jpg',
+      desc: 'Destaque regional em paisagismo.'
+    }
   ]
   
   return (
@@ -564,10 +602,10 @@ function AwardsSection() {
         </motion.div>
         <div className="grid md:grid-cols-3 gap-6">
           {awards.map((award, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} className="theme-bg-secondary rounded-2xl p-6 border theme-border">
-              <div className="text-emerald-500 text-sm font-medium mb-2">{award.year}</div>
-              <h3 className="text-xl font-semibold theme-text-primary mb-2">{award.title}</h3>
-              <p className="theme-text-secondary">{award.desc}</p>
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} className="theme-bg-secondary rounded-2xl p-6 border theme-border flex flex-col items-center text-center">
+              <img src={award.image} alt={award.title} className="w-[14rem] h-[14rem] object-cover rounded-xl mb-4 shadow-md border border-emerald-100" />
+              <h3 className="text-lg font-semibold theme-text-primary mb-2">{award.title}</h3>
+              <p className="theme-text-secondary text-sm">{award.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -785,69 +823,73 @@ function Gallery() {
   const [lightboxOpen, setLightboxOpen] = React.useState(false)
   const [currentProject, setCurrentProject] = React.useState(null)
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0)
+  const [videoModal, setVideoModal] = React.useState({ open: false, src: null })
   
   const projects = [
     {
-      title: 'Jardim Vertical Vertigarden',
-      category: 'Jardins Verticais',
-      location: 'Belo Horizonte, MG',
+      title: 'Projeto Paisagístico',
+      city: 'Caratinga/MG',
       images: [
-        '/images/vertigarden.png',
-        '/images/vertigarden2.png',
-        '/images/paisagismo.jpg'
-      ]
+        '/images/projetos/caratinga/projeto1.jpg',
+        '/images/projetos/caratinga/projeto2.jpg',
+        '/images/projetos/caratinga/projeto3.jpg',
+        '/images/projetos/caratinga/projeto4.jpg',
+        '/images/projetos/caratinga/projeto5.jpg',
+      ],
+      video: null,
     },
     {
-      title: 'Projeto Paisagístico Residencial',
-      category: 'Paisagismo',
-      location: 'Vale do Aço, MG',
+      title: 'Projeto Paisagístico no Condomínio Morada do lago',
+      city: 'Coronel Fabriciano/MG',
       images: [
-        '/images/paisagismo2.jpg',
-        '/images/paisagismo.jpg',
-        '/images/vertigarden.png'
-      ]
+        '/images/projetos/condominiomoradadolago/projeto1.jpg',
+        '/images/projetos/condominiomoradadolago/projeto2.jpg',
+        '/images/projetos/condominiomoradadolago/projeto3.jpg',
+        '/images/projetos/condominiomoradadolago/projeto4.jpg',
+        '/images/projetos/condominiomoradadolago/projeto5.jpg',
+        '/images/projetos/condominiomoradadolago/projeto6.jpg',
+        '/images/projetos/condominiomoradadolago/projeto7.jpg',
+      ],
+      video: null,
     },
     {
-      title: 'Jardim de Inverno',
-      category: 'Interiores',
-      location: 'São Paulo, SP',
+      title: 'Projeto Paisagístico',
+      city: 'Governador Valadares/MG',
       images: [
-        '/images/paisagismo.jpg',
-        '/images/vertigarden2.png',
-        '/images/paisagismo2.jpg'
-      ]
+        '/images/projetos/governadorvaladares/projeto1.jpg',
+        '/images/projetos/governadorvaladares/projeto2.jpg',
+        '/images/projetos/governadorvaladares/projeto3.jpg',
+        '/images/projetos/governadorvaladares/projeto4.jpg',
+        '/images/projetos/governadorvaladares/projeto5.jpg',
+        '/images/projetos/governadorvaladares/projeto6.jpg',
+      ],
+      video: null,
     },
     {
-      title: 'Paisagismo Sustentável',
-      category: 'Sustentabilidade',
-      location: 'Rio de Janeiro, RJ',
+      title: 'Irrigação com Jardim Vertical na Aperam',
+      city: 'Timóteo/MG',
       images: [
-        '/images/vertigarden.png',
-        '/images/paisagismo.jpg',
-        '/images/vertigarden2.png'
-      ]
+        '/images/projetos/irrigacaojardimverticalaperam/projeto1.jpeg',
+        '/images/projetos/irrigacaojardimverticalaperam/projeto2.jpeg',
+        '/images/projetos/irrigacaojardimverticalaperam/projeto3.jpeg',
+        '/images/projetos/irrigacaojardimverticalaperam/projeto4.jpeg',
+        '/images/projetos/irrigacaojardimverticalaperam/projeto5.jpeg',
+      ],
+      video: '/images/projetos/irrigacaojardimverticalaperam/video.mp4',
     },
     {
-      title: 'Sistema de Irrigação',
-      category: 'Tecnologia',
-        location: 'Minas Gerais',
-        images: [
-                  '/images/paisagismo2.jpg',
-        '/images/vertigarden.png',
-        '/images/paisagismo.jpg'
-        ]
-      },
-      {
-        title: 'Jardim Contemporâneo',
-        category: 'Design',
-        location: 'Brasil',
-        images: [
-                  '/images/vertigarden2.png',
-        '/images/paisagismo2.jpg',
-        '/images/vertigarden.png'
-        ]
-      }
-    ]
+      title: 'Jardim Vertical Vertigarden - 15 metros de Altura',
+      city: 'Ipatinga/MG',
+      images: [
+        '/images/projetos/jardimvertigardem15metros/projeto1.jpg',
+        '/images/projetos/jardimvertigardem15metros/projeto2.jpeg',
+        '/images/projetos/jardimvertigardem15metros/projeto3.jpeg',
+        '/images/projetos/jardimvertigardem15metros/projeto4.jpeg',
+        '/images/projetos/jardimvertigardem15metros/projeto5.jpeg',
+      ],
+      video: '/images/projetos/jardimvertigardem15metros/video.mp4',
+    },
+  ]
 
   const openLightbox = (project, imageIndex = 0) => {
     setCurrentProject(project)
@@ -878,7 +920,7 @@ function Gallery() {
   }
   
   return (
-         <section id="projetos" className="py-20 theme-bg-secondary">
+    <section id="projetos" className="py-20 theme-bg-secondary">
       <div className="container mx-auto px-4">
         <motion.div 
           initial={{ opacity: 0, y: 20 }} 
@@ -896,219 +938,227 @@ function Gallery() {
           </p>
         </motion.div>
 
-                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-           {projects.map((project, i) => (
-             <motion.div
-               key={i}
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               transition={{ duration: 0.5, delay: i * 0.1 }}
-               className="group relative overflow-hidden rounded-3xl theme-bg-surface-light border theme-border shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] cursor-pointer"
-               onClick={() => openLightbox(project)}
-             >
-               <div className="relative aspect-[4/3] overflow-hidden">
-                 <img 
-                   src={project.images[0]} 
-                   alt={project.title}
-                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                   loading="lazy"
-                 />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                 
-                 {/* Informações sobrepostas no hover */}
-                 <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                   <div className="space-y-2">
-                     <span className="inline-block bg-emerald-500/90 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full">
-                       {project.category}
-                     </span>
-                     <h3 className="text-lg font-bold text-white">{project.title}</h3>
-                     <p className="text-slate-200 text-sm">{project.location}</p>
-                   </div>
-                 </div>
-
-                 {/* Indicador de galeria */}
-                 <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                   <div className="inline-flex items-center justify-center w-10 h-10 bg-emerald-500/90 backdrop-blur-sm text-white rounded-full">
-                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                       <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
-                     </svg>
-                   </div>
-                 </div>
-
-                 {/* Contador de imagens */}
-                 <div className="absolute top-4 left-4">
-                   <span className="inline-block bg-black/50 backdrop-blur-sm text-white text-xs font-medium px-2 py-1 rounded-full">
-                     {project.images.length} fotos
-                   </span>
-                 </div>
-               </div>
-             </motion.div>
-           ))}
-         </div>
-
-                 {/* CTA centralizado */}
-         <motion.div 
-           initial={{ opacity: 0, y: 20 }} 
-           whileInView={{ opacity: 1, y: 0 }} 
-           viewport={{ once: true }} 
-           transition={{ duration: 0.6, delay: 0.3 }} 
-           className="text-center mt-12"
-         >
-           <a 
-             href={buildWhatsUrl('Quero ver mais projetos e inspirar meu espaço.')} 
-             target="_blank" 
-             rel="noreferrer" 
-             className="hover-scale inline-flex items-center rounded-2xl bg-gradient-to-r from-emerald-500 to-jade-500 px-8 py-4 text-white font-semibold shadow-lg shadow-glow-emerald text-lg transition-all duration-300 hover:shadow-glow-emerald/70"
-           >
-             <MessageCircle className="mr-3 h-6 w-6" />
-             Quero Inspirar Meu Espaço
-           </a>
-         </motion.div>
-       </div>
-
-       {/* Lightbox de Galeria */}
-       <AnimatePresence>
-         {lightboxOpen && currentProject && (
-           <motion.div
-             initial={{ opacity: 0 }}
-             animate={{ opacity: 1 }}
-             exit={{ opacity: 0 }}
-             className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
-             onClick={closeLightbox}
-           >
-             <motion.div
-               initial={{ scale: 0.8, opacity: 0 }}
-               animate={{ scale: 1, opacity: 1 }}
-               exit={{ scale: 0.8, opacity: 0 }}
-               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-               className="relative max-w-6xl w-full mx-4 bg-black rounded-2xl overflow-hidden shadow-2xl"
-               onClick={(e) => e.stopPropagation()}
-             >
-               {/* Header do Lightbox */}
-               <div className="absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-black/80 to-transparent p-6">
-                 <div className="flex items-center justify-between">
-                   <div>
-                     <h3 className="text-2xl font-bold text-white">{currentProject.title}</h3>
-                     <p className="text-slate-300">{currentProject.category} • {currentProject.location}</p>
-                   </div>
-                   <button
-                     onClick={closeLightbox}
-                     className="w-10 h-10 bg-black/50 backdrop-blur-sm text-white rounded-full hover:bg-black/70 transition-colors duration-200 flex items-center justify-center"
-                     aria-label="Fechar galeria"
-                   >
-                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                     </svg>
-                   </button>
-                 </div>
-               </div>
-
-               {/* Imagem Principal */}
-               <div className="relative aspect-[16/9] overflow-hidden">
-                 <img
-                   src={currentProject.images[currentImageIndex]}
-                   alt={`${currentProject.title} - Imagem ${currentImageIndex + 1}`}
-                   className="w-full h-full object-cover"
-                 />
-                 
-                 {/* Navegação de Imagens */}
-                 <button
-                   onClick={prevImage}
-                   className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 backdrop-blur-sm text-white rounded-full hover:bg-black/70 transition-colors duration-200 flex items-center justify-center"
-                   aria-label="Imagem anterior"
-                 >
-                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                   </svg>
-                 </button>
-                 
-                 <button
-                   onClick={nextImage}
-                   className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 backdrop-blur-sm text-white rounded-full hover:bg-black/70 transition-colors duration-200 flex items-center justify-center"
-                   aria-label="Próxima imagem"
-                 >
-                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                   </svg>
-                 </button>
-
-                 {/* Indicador de Imagem */}
-                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-                   <span className="inline-block bg-black/50 backdrop-blur-sm text-white text-sm font-medium px-3 py-1 rounded-full">
-                     {currentImageIndex + 1} de {currentProject.images.length}
-                   </span>
-                 </div>
-               </div>
-
-               {/* Miniaturas */}
-               <div className="p-6 bg-surface-800">
-                 <div className="flex gap-3 overflow-x-auto pb-2">
-                   {currentProject.images.map((image, index) => (
-                     <button
-                       key={index}
-                       onClick={() => setCurrentImageIndex(index)}
-                       className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
-                         index === currentImageIndex 
-                           ? 'border-emerald-500 scale-110' 
-                           : 'border-slate-600 hover:border-slate-400'
-                       }`}
-                     >
-                       <img
-                         src={image}
-                         alt={`Miniatura ${index + 1}`}
-                         className="w-full h-full object-cover"
-                       />
-                     </button>
-                   ))}
-                 </div>
-               </div>
-             </motion.div>
-           </motion.div>
-         )}
-       </AnimatePresence>
-     </section>
-  )
-}
-
-function Testimonials() {
-  const items = [
-    { q: 'Resultado impecável. O jardim elevou o projeto a outro nível.', a: 'Cliente Residencial, BH', rating: 5 },
-    { q: 'Execução precisa e manutenção simples. Viramos fãs dos jardins verticais.', a: 'Escritório Corporativo, Vale do Aço', rating: 5 },
-    { q: 'Equipe cuidadosa, projeto autoral e sustentável. Recomendo.', a: 'Arquiteta Parceira', rating: 5 }
-  ]
-  return (
-    <section id="depoimentos" className="py-14">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold theme-text-primary mb-4">Depoimentos dos Clientes</h2>
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <span className="text-4xl font-bold text-emerald-500">5.0</span>
-            <div className="flex gap-1">
-              {[...Array(5)].map((_, i) => <span key={i} className="text-accent-gold">★</span>)}
-            </div>
-          </div>
-          <p className="theme-text-secondary">100+ Clientes Avaliaram</p>
-        </div>
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
-          {items.map((t, i) => (
-            <motion.blockquote
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project, i) => (
+            <motion.div
               key={i}
-              className="rounded-2xl border theme-border theme-bg-surface p-6 shadow-sm theme-text-secondary"
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="group relative overflow-hidden rounded-3xl theme-bg-surface-light border theme-border shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] cursor-pointer"
+              onClick={() => openLightbox(project)}
             >
-              <div className="flex gap-1 mb-3">
-                {[...Array(t.rating)].map((_, i) => <span key={i} className="text-accent-gold">★</span>)}
-            </div>
-              <p className="text-lg theme-text-primary">"{t.q}"</p>
-              <footer className="theme-text-muted mt-2">— {t.a}</footer>
-            </motion.blockquote>
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img 
+                  src={project.images[0]} 
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                {/* Ícone de vídeo se houver vídeo */}
+                {project.video && (
+                  <button
+                    type="button"
+                    onClick={e => { e.stopPropagation(); setVideoModal({ open: true, src: project.video }) }}
+                    className="absolute top-4 right-4 z-10 w-12 h-12 bg-emerald-500/90 backdrop-blur-sm text-white rounded-full flex items-center justify-center shadow-lg hover:bg-emerald-600 transition-all duration-300 group-hover:scale-110"
+                    aria-label="Assistir vídeo do projeto"
+                  >
+                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                )}
+                {/* Informações sobrepostas no hover */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-bold text-white">{project.title}</h3>
+                    <p className="text-slate-200 text-sm">{project.city}</p>
+                  </div>
+                </div>
+                {/* Indicador de galeria */}
+                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="inline-flex items-center justify-center w-10 h-10 bg-emerald-500/90 backdrop-blur-sm text-white rounded-full">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z" />
+                    </svg>
+                  </div>
+                </div>
+                {/* Contador de imagens e vídeos */}
+                <div className="absolute top-4 left-4 flex flex-col gap-1">
+                  <span className="inline-block bg-black/50 backdrop-blur-sm text-white text-xs font-medium px-2 py-1 rounded-full">
+                    {project.images.length} fotos{project.video ? ' • 1 vídeo' : ''}
+                  </span>
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
+
+        {/* CTA centralizado */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} 
+          whileInView={{ opacity: 1, y: 0 }} 
+          viewport={{ once: true }} 
+          transition={{ duration: 0.6, delay: 0.3 }} 
+          className="text-center mt-12"
+        >
+          <a 
+            href={buildWhatsUrl('Quero ver mais projetos e inspirar meu espaço.')} 
+            target="_blank" 
+            rel="noreferrer" 
+            className="hover-scale inline-flex items-center rounded-2xl bg-gradient-to-r from-emerald-500 to-jade-500 px-8 py-4 text-white font-semibold shadow-lg shadow-glow-emerald text-lg transition-all duration-300 hover:shadow-glow-emerald/70"
+          >
+            <MessageCircle className="mr-3 h-6 w-6" />
+            Quero Inspirar Meu Espaço
+          </a>
+        </motion.div>
       </div>
+
+      {/* Lightbox de Galeria (fotos) */}
+      <AnimatePresence>
+        {lightboxOpen && currentProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+            onClick={closeLightbox}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative max-w-6xl w-full mx-4 bg-black rounded-2xl overflow-hidden shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header do Lightbox */}
+              <div className="absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-black/80 to-transparent p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">{currentProject.title}</h3>
+                    <p className="text-slate-300">{currentProject.category} • {currentProject.city}</p>
+                  </div>
+                  <button
+                    onClick={closeLightbox}
+                    className="w-10 h-10 bg-black/50 backdrop-blur-sm text-white rounded-full hover:bg-black/70 transition-colors duration-200 flex items-center justify-center"
+                    aria-label="Fechar galeria"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Imagem Principal */}
+              <div className="relative aspect-[16/9] overflow-hidden">
+                <img
+                  src={currentProject.images[currentImageIndex]}
+                  alt={`${currentProject.title} - Imagem ${currentImageIndex + 1}`}
+                  className="w-full h-full object-cover"
+                />
+                
+                {/* Navegação de Imagens */}
+                <button
+                  onClick={prevImage}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 backdrop-blur-sm text-white rounded-full hover:bg-black/70 transition-colors duration-200 flex items-center justify-center"
+                  aria-label="Imagem anterior"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                
+                <button
+                  onClick={nextImage}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 backdrop-blur-sm text-white rounded-full hover:bg-black/70 transition-colors duration-200 flex items-center justify-center"
+                  aria-label="Próxima imagem"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+
+                {/* Indicador de Imagem */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
+                  <span className="inline-block bg-black/50 backdrop-blur-sm text-white text-sm font-medium px-3 py-1 rounded-full">
+                    {currentImageIndex + 1} de {currentProject.images.length}
+                  </span>
+                </div>
+              </div>
+
+              {/* Miniaturas */}
+              <div className="p-6 bg-surface-800">
+                <div className="flex gap-3 overflow-x-auto pb-2">
+                  {currentProject.images.map((image, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentImageIndex(index)}
+                      className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                        index === currentImageIndex 
+                          ? 'border-emerald-500 scale-110' 
+                          : 'border-slate-600 hover:border-slate-400'
+                      }`}
+                    >
+                      <img
+                        src={image}
+                        alt={`Miniatura ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* Modal de Vídeo do Projeto */}
+      <AnimatePresence>
+        {videoModal.open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+            onClick={() => setVideoModal({ open: false, src: null })}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-2xl mx-4 bg-black rounded-2xl overflow-hidden shadow-2xl"
+              style={{ aspectRatio: '16/9' }}
+              onClick={e => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setVideoModal({ open: false, src: null })}
+                className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 backdrop-blur-sm text-white rounded-full hover:bg-black/70 transition-colors duration-200 flex items-center justify-center"
+                aria-label="Fechar vídeo"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <video
+                className="w-full h-full object-cover"
+                controls
+                autoPlay
+                loop
+                playsInline
+                controlsList="nodownload"
+              >
+                <source src={videoModal.src} type="video/mp4" />
+                Seu navegador não suporta vídeos.
+              </video>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
@@ -1219,7 +1269,7 @@ function Contact() {
                     <p className="text-sm text-slate-400">Atendimento direto</p>
                   </div>
                   <a 
-                    href={`tel:${config.phone.replace(/\D/g, '')}`}
+                    href={`tel:55${config.phone.replace(/\D/g, '')}`}
                     className="px-4 py-2 bg-emerald-500 text-white rounded-xl text-sm font-medium hover:bg-emerald-600 transition-colors duration-300"
                   >
                     Ligar
@@ -1423,13 +1473,69 @@ function App() {
       <ThemeProvider>
         <div className="min-h-full flex flex-col">
           <Helmet>
-            <title>Gregório Paisagista — Jardins Verticais, Projetos Paisagísticos, Irrigação e Implantação</title>
-            <meta name="description" content="Autoridade nacional em Jardins Verticais (Vertigarden), Projetos Paisagísticos, Irrigação e Implantação. Excelência técnica e estética." />
+            {/* Título e descrição */}
+            <title>Gregório Paisagista | Jardins Verticais, Irrigação e Implantação</title>
+            <meta name="description" content="Paisagismo de alto padrão, jardins verticais Vertigarden, projetos de irrigação e implantação de jardins. Atuação nacional, excelência técnica e criatividade." />
+            <meta name="keywords" content="paisagismo, jardins verticais, Vertigarden, irrigação, implantação de jardim, projetos paisagísticos, Minas Gerais, Gregório, paisagista, sustentabilidade, automação de irrigação, jardim vertical, paisagismo residencial, paisagismo corporativo" />
+            <meta name="author" content="Gregório Paisagista" />
+            <meta name="robots" content="index, follow" />
             <link rel="canonical" href="https://gregoriopaisagista.com.br/" />
+
+            {/* Open Graph (Facebook, WhatsApp, LinkedIn) */}
             <meta property="og:type" content="website" />
-            <meta property="og:title" content="Gregório Paisagista — Autoridade em Paisagismo" />
-            <meta property="og:description" content="Jardins Verticais (Vertigarden), Projetos Paisagísticos, Irrigação e Implantação. Atendimento nacional." />
-            <meta property="og:image" content="https://images.unsplash.com/photo-1523419409543-a5e549c1d29f?w=1200&q=80&auto=format&fit=crop" />
+            <meta property="og:locale" content="pt_BR" />
+            <meta property="og:title" content="Gregório Paisagista | Jardins Verticais, Irrigação e Implantação" />
+            <meta property="og:description" content="Paisagismo de alto padrão, jardins verticais Vertigarden, projetos de irrigação e implantação de jardins. Atuação nacional, excelência técnica e criatividade." />
+            <meta property="og:url" content="https://gregoriopaisagista.com.br/" />
+            <meta property="og:site_name" content="Gregório Paisagista" />
+            <meta property="og:image" content="https://gregoriopaisagista.com.br/images/bghero.png" />
+
+            {/* Twitter Card */}
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content="Gregório Paisagista | Jardins Verticais, Irrigação e Implantação" />
+            <meta name="twitter:description" content="Paisagismo de alto padrão, jardins verticais Vertigarden, projetos de irrigação e implantação de jardins." />
+            <meta name="twitter:image" content="https://gregoriopaisagista.com.br/images/bghero.png" />
+
+            {/* Contato e localização */}
+            <meta name="geo.region" content="BR-MG" />
+            <meta name="geo.placename" content="Minas Gerais" />
+            <meta name="geo.position" content="-19.9167;-43.9345" />
+            <meta name="ICBM" content="-19.9167, -43.9345" />
+
+            {/* Favicon */}
+            <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+            <link rel="apple-touch-icon" href="/favicon.ico" />
+            <meta name="theme-color" content="#070a10" />
+
+            {/* Estrutura de dados (JSON-LD) */}
+            <script type="application/ld+json">{`
+              {
+                "@context": "https://schema.org",
+                "@type": "LocalBusiness",
+                "name": "Gregório Paisagista",
+                "image": "https://gregoriopaisagista.com.br/images/bghero.png",
+                "url": "https://gregoriopaisagista.com.br/",
+                "telephone": "+55${config.phone.replace(/\\D/g, '')}",
+                "email": "${config.email}",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Minas Gerais",
+                  "addressCountry": "BR"
+                },
+                "description": "Paisagismo de alto padrão, jardins verticais Vertigarden, projetos de irrigação e implantação de jardins.",
+                "areaServed": "Brasil",
+                "founder": "Gregório",
+                "contactPoint": {
+                  "@type": "ContactPoint",
+                  "telephone": "+55${config.phone.replace(/\\D/g, '')}",
+                  "contactType": "customer service",
+                  "areaServed": "BR"
+                },
+                "sameAs": [
+                  "https://www.instagram.com/gregoriopaisagista"
+                ]
+              }
+            `}</script>
           </Helmet>
           <script type="application/ld+json">{JSON.stringify({
             "@context": "https://schema.org",
@@ -1449,7 +1555,6 @@ function App() {
             <Gallery />
             <SkillsSection />
             <AwardsSection />
-            <Testimonials />
             <Contact />
           </main>
                   <Footer />
