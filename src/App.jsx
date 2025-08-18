@@ -885,7 +885,7 @@ function Gallery() {
         '/images/projetos/jardimvertigardem15metros/projeto2.jpeg',
         '/images/projetos/jardimvertigardem15metros/projeto3.jpeg',
         '/images/projetos/jardimvertigardem15metros/projeto4.jpeg',
-        '/images/projetos/jardimvertigardem15metros/projeto5.jpeg',
+        '/images/projetos/jardimvertigardem15metros/projeto5.jpg',
       ],
       video: '/images/projetos/jardimvertigardem15metros/video.mp4',
     },
