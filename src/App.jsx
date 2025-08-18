@@ -625,19 +625,7 @@ function About() {
               alt="Gregório Paisagista"
               className="w-full h-auto rounded-3xl shadow-2xl"
             />
-            {/* Selo de prêmio sobreposto estilo HappyHome */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }} 
-              whileInView={{ opacity: 1, scale: 1 }} 
-              viewport={{ once: true }} 
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="absolute -top-6 -right-6 bg-gradient-to-br from-emerald-500 to-jade-600 rounded-2xl p-4 shadow-2xl border border-emerald-400/30"
-            >
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white">50+</div>
-                <div className="text-xs text-emerald-100 font-medium">Prêmios</div>
-              </div>
-            </motion.div>
+
           </div>
           
           <motion.div 
