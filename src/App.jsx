@@ -90,20 +90,7 @@ function Header() {
            </motion.a>
            
            {/* Toggle de Tema */}
-           <motion.button 
-             onClick={toggleTheme} 
-             initial={{ opacity: 0, y: -6 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ duration: 0.6, delay: 0.2 }}
-             className="ml-4 p-2 rounded-xl backdrop-blur-sm border transition-all duration-300 hover:scale-110 theme-bg-surface theme-border hover:theme-bg-surface-light"
-             aria-label={isDark ? "Mudar para tema claro" : "Mudar para tema escuro"}
-           >
-             {isDark ? (
-               <Sun className="w-5 h-5 text-yellow-400" />
-             ) : (
-               <Moon className="w-5 h-5 text-blue-400" />
-             )}
-           </motion.button>
+           {/* Removido conforme solicitado */}
         </div>
       </div>
     </header>
@@ -1547,7 +1534,7 @@ function App() {
           </main>
                   <Footer />
         <WhatsFab />
-        <ThemePreview />
+        {/* <ThemePreview /> Removido conforme solicitado */}
       </div>
     </ThemeProvider>
   </HelmetProvider>
