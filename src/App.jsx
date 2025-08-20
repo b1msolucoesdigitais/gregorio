@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Leaf, Sprout, Droplets, Shovel, MessageCircle, Sun, Moon } from 'lucide-react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
@@ -8,7 +8,7 @@ const config = {
   whatsapp: '5531989484903',
   email: 'contato@gregoriopaisagista.com.br',
   phone: '(31) 98948-4903',
-  formEndpoint: '', // ex.: https://formspree.io/f/SEU_ID
+  formEndpoint: 'https://whook.b1m.digital/webhook/248aac00-654a-418a-99c9-f18a2403205d', // ex.: https://formspree.io/f/SEU_ID
 }
 
 // Context para gerenciar o tema
@@ -1138,25 +1138,79 @@ function Gallery() {
   )
 }
 
+// Adiciona componente de input de telefone com máscara e bandeira
+function PhoneInput({ value, onChange, ...props }) {
+  // Função para aplicar máscara brasileira (com DDI)
+  function maskPhone(v) {
+    v = v.replace(/\D/g, '')
+    if (v.startsWith('55')) v = v.slice(2)
+    if (v.length > 11) v = v.slice(0, 11)
+    if (v.length <= 2) return `(${v}`
+    if (v.length <= 7) return `(${v.slice(0,2)}) ${v.slice(2)}`
+    if (v.length <= 11) return `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`
+    return v
+  }
+  function handleChange(e) {
+    let v = e.target.value.replace(/\D/g, '')
+    if (!v.startsWith('55')) v = '55' + v
+    onChange && onChange({
+      ...e,
+      target: { ...e.target, value: maskPhone(v) }
+    })
+  }
+  return (
+    <div className="flex items-center gap-2">
+      <span className="inline-flex items-center px-2 py-1 bg-slate-700 border border-slate-600 rounded-l-xl text-white text-sm select-none" style={{height:'48px'}}>
+        <span role="img" aria-label="Brasil" style={{fontSize:'1.3em', marginRight:4}}>🇧🇷</span> +55
+      </span>
+      <input
+        {...props}
+        value={maskPhone(value || '')}
+        onChange={handleChange}
+        maxLength={20}
+        inputMode="tel"
+        className={
+          (props.className || '') +
+          ' rounded-l-none rounded-r-2xl border-l-0 pl-2'
+        }
+        style={{height:'48px'}}
+      />
+    </div>
+  )
+}
+
 function Contact() {
+  const [status, setStatus] = React.useState(null) // 'success' | 'error' | null
+  const [msg, setMsg] = React.useState('')
+  const timeoutRef = React.useRef()
+  const [form, setForm] = React.useState({})
+
   async function onSubmit(e) {
     e.preventDefault()
-    const form = e.currentTarget
-    const data = Object.fromEntries(new FormData(form))
+    const formEl = e.currentTarget
+    const data = Object.fromEntries(new FormData(formEl))
+    setForm({}) // limpa o estado após envio
     const msg = 'Por favor, preencha nome, e-mail e mensagem.'
     if (!data.nome || !data.email || !data.mensagem) {
-      alert(msg)
+      setStatus('error')
+      setMsg(msg)
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = setTimeout(() => setStatus(null), 5000)
       return
     }
     if (config.formEndpoint) {
       try {
         const res = await fetch(config.formEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, page: window.location.href }) })
         if (!res.ok) throw new Error('Erro no envio')
-        alert('Mensagem enviada com sucesso!')
-        form.reset()
+        setStatus('success')
+        setMsg('Mensagem enviada com sucesso! Em breve entraremos em contato.')
+        formEl.reset()
       } catch (err) {
-        alert('Não foi possível enviar agora. Tente novamente ou use o WhatsApp.')
+        setStatus('error')
+        setMsg('Houve um erro no envio do formulário. Por favor, tente novamente ou entre em contato direto pelo WhatsApp.')
       }
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = setTimeout(() => setStatus(null), 7000)
     } else {
       const subject = encodeURIComponent('Contato pelo site - Gregório Paisagista')
       const body = encodeURIComponent(`Nome: ${data.nome}\nE-mail: ${data.email}\nTelefone: ${data.telefone || ''}\n\nMensagem:\n${data.mensagem}`)
@@ -1164,8 +1218,33 @@ function Contact() {
     }
   }
 
+  React.useEffect(() => () => clearTimeout(timeoutRef.current), [])
+
   return (
     <section id="contato" className="py-20 theme-bg-primary relative overflow-hidden">
+      {/* Feedback visual de envio */}
+      <div className="fixed top-6 left-1/2 z-50 -translate-x-1/2 w-full max-w-md px-4 pointer-events-none">
+        <AnimatePresence>
+          {status && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className={`rounded-2xl px-6 py-4 shadow-xl font-medium text-center text-base flex items-center gap-3 justify-center pointer-events-auto ${status === 'success' ? 'bg-emerald-600/95 text-white' : 'bg-red-600/95 text-white'}`}
+              role="alert"
+            >
+              {status === 'success' ? (
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+              ) : (
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              )}
+              <span>{msg}</span>
+              <button onClick={() => setStatus(null)} className="ml-2 text-white/80 hover:text-white text-lg font-bold bg-transparent border-0 cursor-pointer" style={{lineHeight:1}} aria-label="Fechar">×</button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
       {/* Elementos decorativos de fundo */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-10 w-32 h-32 bg-emerald-500 rounded-full blur-3xl"></div>
@@ -1334,12 +1413,13 @@ function Contact() {
                   <label htmlFor="telefone" className="block text-sm font-semibold text-white">
                     Telefone
                   </label>
-                  <input 
-                    id="telefone" 
-                    name="telefone" 
-                    type="tel" 
-                    placeholder="(DDD) 00000-0000" 
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-800/50 border border-slate-600/50 text-white placeholder-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300" 
+                  <PhoneInput
+                    id="telefone"
+                    name="telefone"
+                    value={form?.telefone || ''}
+                    onChange={e => setForm(f => ({ ...f, telefone: e.target.value }))}
+                    placeholder="(31) 99999-9999"
+                    className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 text-white placeholder-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300"
                   />
                 </div>
 
@@ -1479,7 +1559,7 @@ function App() {
 
             {/* Favicon */}
             <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-            <link rel="apple-touch-icon" href="/favicon.ico" />
+            <link rel="apple-touch-icon" href="/favicon.png" />
             <meta name="theme-color" content="#070a10" />
 
             {/* Estrutura de dados (JSON-LD) */}
