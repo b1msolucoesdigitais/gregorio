@@ -112,7 +112,12 @@ function Hero() {
   return (
     <section id="hero" className="relative min-h-screen flex items-center">
       {/* Loading animado */}
-      <motion.div initial={{ opacity: 1 }} animate={{ opacity: 0 }} transition={{ delay: 1, duration: 0.5 }} className="absolute inset-0 z-50 flex items-center justify-center bg-[#070a10]">
+      <motion.div 
+        initial={{ opacity: 1 }} 
+        animate={{ opacity: 0 }} 
+        transition={{ delay: 1, duration: 0.5 }} 
+        className="absolute inset-0 z-50 flex items-center justify-center bg-[#070a10] pointer-events-none"
+      >
         <div className="text-center">
           <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto mb-4" />
           <div className="text-2xl font-bold text-white">GREGÓRIO PAISAGISTA</div>
